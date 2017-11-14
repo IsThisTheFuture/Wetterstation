@@ -16,7 +16,7 @@ public class Main extends TimerTask{
 
         /* Erfasse und Sende Wetterdaten alle 5 Sekunden */
         Timer timer = new Timer();
-        timer.schedule(new Main(), 0, 5000);
+        timer.schedule(new Main(), 0, 500);
     }
 
     public void run(){

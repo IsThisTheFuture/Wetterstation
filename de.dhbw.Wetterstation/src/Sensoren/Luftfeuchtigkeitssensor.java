@@ -17,7 +17,7 @@ public class Luftfeuchtigkeitssensor {
     }
 
     public long messeLuftfeuchtigkeit() {
-        double luftfeuchtigkeit = Math.random()*100;
+        double luftfeuchtigkeit = 30 + Math.random()*35;
         return (long) luftfeuchtigkeit;
     }
 }

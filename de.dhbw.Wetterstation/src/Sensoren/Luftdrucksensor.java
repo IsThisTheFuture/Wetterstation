@@ -17,7 +17,7 @@ public class Luftdrucksensor {
     }
 
     public long messeLuftdruck() {
-        double luftdruck = Math.random()*1000;
+        double luftdruck = 990 + Math.random()*50;
         return (long) luftdruck;
     }
 

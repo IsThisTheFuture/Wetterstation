@@ -18,7 +18,7 @@ public class Temperatursensor {
     }
 
     public long messeTemperatur() {
-        double temperatur = Math.random()*100;
+        double temperatur = (Math.random()*75) - 25;
         return (long) temperatur;
     }
 
