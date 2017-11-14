@@ -1,0 +1,20 @@
+Aufgabe
+=======
+
+Überlegen sie sich ein einfaches text-basiertes Datenformat, mit dem sie Wetterdaten (z.B. Temperatur, Druck
+und Luftfeuchtigkeit) von einer Wetterstation auf einen zentralen Server übertragen können, der diese Daten
+in einer Datenbank speichert. Überlegen sie sich hierzu die Struktur einer Datenbanktabelle, um diese Daten
+zu speichern.
+
+
+-> Später: Besser in JSON?
+
+
+Format für Messungen
+====================
+Zeitpunkt Wert        Einheit Wert     Einheit Wert     Einheit
+timestamp temperature celsius humidity percent pressure hpa
+
+
+z. B.
+1510684349 21 c 50 percent 1028 hPa
