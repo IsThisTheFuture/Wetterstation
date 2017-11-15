@@ -25,8 +25,10 @@ public class Wetterstation {
 
     private String buildResultString(Messung messung){
         builder = new StringBuilder();
+
         builder.append("Timestamp: ");
         builder.append(messung.getTimestamp());
+
         builder.append(", Temperatursensor: ");
         builder.append(messung.getTemperatur());
         builder.append("° ");
