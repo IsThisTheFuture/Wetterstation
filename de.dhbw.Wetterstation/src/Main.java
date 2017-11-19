@@ -16,12 +16,11 @@ import java.util.logging.Logger;
 public class Main extends TimerTask{
     private static final Logger logger = Logger.getLogger(Main.class.getName());
 
-    private Wetterstation kappelrodeck;
-    private DatagramSocket socket;
-    private InetAddress address;
+    private Wetterstation kappelrodeck = null;
+    private static DatagramSocket socket = null;
+    private InetAddress address = null;
 
     private byte[] buffer;
-
 
     public Main() {
         super();
@@ -41,17 +40,12 @@ public class Main extends TimerTask{
 
     }
 
-
-
     public static void main(String[] Arguments){
+        Runtime.getRuntime().addShutdownHook(new ShutDownHook());
+
         /* Erfasse und Sende Wetterdaten alle 5 Sekunden */
         Timer timer = new Timer();
         timer.schedule(new Main(), 0, 500);
-
-
-
-        /* UDP Kommunikation */
-
     }
 
     public void run(){
@@ -69,8 +63,11 @@ public class Main extends TimerTask{
 
     }
 
-    public void closeSocket() {
-        socket.close();
+    private static class ShutDownHook extends Thread {
+        @Override
+        public void run(){
+            socket.close();
+            logger.info("Socket closed");
+        }
     }
-
 }
