@@ -10,7 +10,7 @@ public class Messung {
 
     public Messung() {
         super();
-        timestamp = System.currentTimeMillis();
+        timestamp = System.currentTimeMillis() / 1000;
     }
 
     public String getProperty() {
