@@ -16,15 +16,21 @@ import java.util.logging.Logger;
 public class Main extends TimerTask{
     private static final Logger logger = Logger.getLogger(Main.class.getName());
 
-    private Wetterstation kappelrodeck = null;
     private static DatagramSocket socket = null;
-    private InetAddress address = null;
-
+    private static InetAddress address = null;
+    private static Wetterstation kappelrodeck = null;
     private byte[] buffer;
 
     public Main() {
         super();
-        kappelrodeck = new Wetterstation();
+
+
+    }
+
+    public static void main(String[] Arguments){
+        Runtime.getRuntime().addShutdownHook(new ShutDownHook());
+
+        kappelrodeck = new Wetterstation("Kappelrodeck#1");
 
         try {
             socket = new DatagramSocket();
@@ -38,28 +44,34 @@ public class Main extends TimerTask{
             logger.log(Level.SEVERE, "Konnte Adresse nicht verwenden", e);
         }
 
-    }
-
-    public static void main(String[] Arguments){
-        Runtime.getRuntime().addShutdownHook(new ShutDownHook());
-
         /* Erfasse und Sende Wetterdaten alle 5 Sekunden */
         Timer timer = new Timer();
         timer.schedule(new Main(), 0, 500);
     }
 
     public void run(){
-        String message = kappelrodeck.getMesswerte();
-        System.out.println(message);
+        String message = null;
+        for(int i = 0; i < 3; i++) {
 
-        buffer = message.getBytes();
-        DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, 7134);
+            if(i == 0)
+                 message = kappelrodeck.messeTemperatur();
+            else if (i == 1)
+                message = kappelrodeck.messeLuftdruck();
+            else if (i == 2)
+                message = kappelrodeck.messeLuftfeuchtigkeit();
 
-        try {
-            socket.send(packet);
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "Konnte Packet nicht versenden!", e);
+            System.out.println(message);
+
+            buffer = message.getBytes();
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, 7134);
+
+            try {
+                socket.send(packet);
+            } catch (IOException e) {
+                logger.log(Level.SEVERE, "Konnte Packet nicht versenden!", e);
+            }
         }
+
 
     }
 

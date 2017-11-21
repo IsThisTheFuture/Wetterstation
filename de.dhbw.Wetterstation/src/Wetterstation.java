@@ -1,47 +1,59 @@
 import Sensoren.*;
 
 public class Wetterstation {
+    private String stationsName;
     private Messung messung;
     private StringBuilder builder;
     private Temperatursensor temperatursensor;
     private Luftfeuchtigkeitssensor luftfeuchtigkeitssensor;
     private Luftdrucksensor luftdrucksensor;
 
-    public Wetterstation() {
+    public Wetterstation(String stationsName) {
         super();
+        this.stationsName = stationsName;
         temperatursensor = new Temperatursensor();
         luftfeuchtigkeitssensor = new Luftfeuchtigkeitssensor();
         luftdrucksensor = new Luftdrucksensor();
     }
 
-    public String getMesswerte(){
+    public String messeTemperatur(){
         messung = new Messung();
-        messung.setTemperatur(temperatursensor.messeTemperatur());
-        messung.setLuftfeuchtigkeit(luftfeuchtigkeitssensor.messeLuftfeuchtigkeit());
-        messung.setLuftdruck(luftdrucksensor.messeLuftdruck());
+        messung.setStationsName(this.stationsName);
+        messung.setProperty("Temperatur");
+        messung.setPropertyUnit(temperatursensor.getTempEinheit());
+        messung.setValue(temperatursensor.messeTemperatur());
 
+        return buildResultString(messung);
+    }
+
+    public String messeLuftfeuchtigkeit(){
+        messung.setStationsName(this.stationsName);
+        messung.setProperty("Luftfeuchtigkeit");
+        messung.setPropertyUnit(luftfeuchtigkeitssensor.getFeuchtigkeitEinheit());
+        messung.setValue(luftfeuchtigkeitssensor.messeLuftfeuchtigkeit());
+        return buildResultString(messung);
+    }
+
+    public String messeLuftdruck(){
+        messung.setStationsName(this.stationsName);
+        messung.setProperty("Luftdruck");
+        messung.setPropertyUnit(luftdrucksensor.getDruckEinheit());
+        messung.setValue(luftdrucksensor.messeLuftdruck());
         return buildResultString(messung);
     }
 
     private String buildResultString(Messung messung){
         builder = new StringBuilder();
 
-        builder.append("Timestamp: ");
-        builder.append(messung.getTimestamp());
-
-        builder.append(", Temperatursensor: ");
-        builder.append(messung.getTemperatur());
-        builder.append("° ");
-        builder.append(temperatursensor.getTempEinheit());
-
-        builder.append(", Luftfeuchtigkeitssensor: ");
-        builder.append(messung.getLuftfeuchtigkeit());
-        builder.append(luftfeuchtigkeitssensor.getFeuchtigkeitEinheit());
-
-        builder.append(", Luftdrucksensor: ");
-        builder.append(messung.getLuftdruck());
+        builder.append(messung.getStationsName());
         builder.append(" ");
-        builder.append(luftdrucksensor.getDruckEinheit());
+        builder.append(messung.getTimestamp());
+        builder.append(" ");
+        builder.append(messung.getProperty());
+        builder.append(" ");
+        builder.append(messung.getPropertyUnit());
+        builder.append(" ");
+        builder.append(messung.getValue());
 
         return builder.toString();
     }
