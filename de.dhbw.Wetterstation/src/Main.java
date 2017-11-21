@@ -21,12 +21,6 @@ public class Main extends TimerTask{
     private static Wetterstation kappelrodeck = null;
     private byte[] buffer;
 
-    public Main() {
-        super();
-
-
-    }
-
     public static void main(String[] Arguments){
         Runtime.getRuntime().addShutdownHook(new ShutDownHook());
 
